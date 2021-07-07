@@ -2,6 +2,7 @@ using System;
 using System.Linq;
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
+using HeresTheGreenAPI.Models;
 
 namespace HeresTheGreenAPI.Controllers
 {
@@ -9,48 +10,56 @@ namespace HeresTheGreenAPI.Controllers
     [ApiController]
     public class CoursesController : Controller
     {
-        public CoursesController()
+        private readonly CourseRepository _courseRepository;
+        public CoursesController(CourseRepository courseRepository)
         {
-            
+            _courseRepository = courseRepository;
         }
         
         // POST: "/api/Courses
         [HttpPost]
-        public IActionResult CreateCourse()
+        public ActionResult<Course> CreateCourse(Course course)
         {
-            return Ok();
+            return _courseRepository.Create(course);
         }
 
         // GET: "/api/Courses"
         [HttpGet]
-        public IActionResult GetCompanies()
+        public ActionResult<List<Course>> GetCourses()
         {
-            return Ok();
+            return _courseRepository.GetCourses();
         }
 
         // GET: "/api/Courses/{id}"
         [HttpGet("{id}")]
-        public IActionResult GetCourse(string id)
+        public ActionResult<Course> GetCourse(string id)
         {
-            return Ok();
+            return _courseRepository.GetCourse(id);
         }
 
         // PUT: "/api/Courses/{id}"
         [HttpPut("{id}")]
-        public IActionResult UpdateCourse(string id)
+        public ActionResult<Course> UpdateCourse(string id, Course courseIn)
         {
-            return Ok();
+            var course = _courseRepository.GetCourse(id);
+            if (course == null)
+            {
+                return NotFound();
+            }
+
+            return _courseRepository.Update(id, courseIn);
         }
 
         [HttpDelete("{id}")]
         public IActionResult DeleteCourse(string id)
         {
-            return Ok();
-        }
+            var course = _courseRepository.GetCourse(id);
+            if (course == null)
+            {
+                return NotFound();
+            }
 
-        private bool CourseExists(string id)
-        {
-            return true;
+            return NoContent();
         }
     }
 }

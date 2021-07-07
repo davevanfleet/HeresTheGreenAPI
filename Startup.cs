@@ -29,10 +29,14 @@ namespace HeresTheGreenAPI
         public void ConfigureServices(IServiceCollection services)
         {
             services.Configure<CoursesDatabaseSettings>(
-            Configuration.GetSection(nameof(CoursesDatabaseSettings)));
+                Configuration.GetSection(nameof(CoursesDatabaseSettings))
+            );
 
             services.AddSingleton<ICoursesDatabaseSettings>(sp =>
-                sp.GetRequiredService<IOptions<CoursesDatabaseSettings>>().Value);
+                sp.GetRequiredService<IOptions<CoursesDatabaseSettings>>().Value
+            );
+            
+            services.AddScoped<ICourseRepository, CourseRepository>();
 
             services.AddControllers();
             services.AddSwaggerGen(c =>
