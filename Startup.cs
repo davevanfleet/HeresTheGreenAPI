@@ -36,7 +36,7 @@ namespace HeresTheGreenAPI
                 sp.GetRequiredService<IOptions<CoursesDatabaseSettings>>().Value
             );
             
-            services.AddScoped<ICourseRepository, CourseRepository>();
+            services.AddSingleton<ICourseRepository, CourseRepository>();
 
             services.AddControllers();
             services.AddSwaggerGen(c =>

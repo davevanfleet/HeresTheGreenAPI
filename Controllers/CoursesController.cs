@@ -10,8 +10,8 @@ namespace HeresTheGreenAPI.Controllers
     [ApiController]
     public class CoursesController : Controller
     {
-        private readonly CourseRepository _courseRepository;
-        public CoursesController(CourseRepository courseRepository)
+        private readonly ICourseRepository _courseRepository;
+        public CoursesController(ICourseRepository courseRepository)
         {
             _courseRepository = courseRepository;
         }

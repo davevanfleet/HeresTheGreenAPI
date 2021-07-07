@@ -44,7 +44,7 @@ namespace HeresTheGreenAPI.Models
         }
     }
 
-    interface ICourseRepository
+    public interface ICourseRepository
     {
         List<Course> GetCourses();
         Course GetCourse(string id);
