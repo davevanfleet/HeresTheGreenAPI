@@ -28,9 +28,24 @@ namespace HeresTheGreenAPI
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.Configure<CoursesDatabaseSettings>(
-                Configuration.GetSection(nameof(CoursesDatabaseSettings))
-            );
+            var env = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
+
+            if (env == "Development")
+            {
+                services.Configure<CoursesDatabaseSettings>(
+                    Configuration.GetSection(nameof(CoursesDatabaseSettings))
+                );
+            }
+
+            else
+            {
+                services.Configure<CoursesDatabaseSettings>(options => 
+                {
+                    options.CoursesCollectionName = Environment.GetEnvironmentVariable("COURSES_COLLECTION_NAME");
+                    options.ConnectionString = Environment.GetEnvironmentVariable("CONNECTION_STRING");
+                    options.DatabaseName = Environment.GetEnvironmentVariable("DATABASE_NAME");
+                });
+            }
 
             services.AddSingleton<ICoursesDatabaseSettings>(sp =>
                 sp.GetRequiredService<IOptions<CoursesDatabaseSettings>>().Value
