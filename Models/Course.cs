@@ -15,6 +15,13 @@ namespace HeresTheGreenAPI.Models
 
         public int Par { get; set; }
         public IEnumerable<Hole> Holes { get; set; }
+        public Location Location { get; set; }
+    }
+
+    public class Location 
+    {
+        public decimal Lat { get; set; }
+        public decimal Lng { get; set; }
         public Address Address { get; set; }
     }
 
